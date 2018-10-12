@@ -53,6 +53,53 @@ class Circle:public Button
   };
 };
 
+class Rectangle:public Button
+{
+  public:
+
+  Rectangle()
+  {
+    
+  }
+
+  Rectangle(bool newIsSet):Button(newIsSet)
+  {
+    
+  }
+
+  void draw(bool isInv)
+  {
+    TV.draw_rect(58, 42, 12, 12, 1, !isInv);
+  }
+};
+
+class Arrow:public Button
+{
+  public:
+
+  int posX;
+  int posY;
+  int rotation;
+
+  Arrow()
+  {
+    
+  }
+
+  Arrow(int newPosX, int newPosY, int newRotation, bool newIsSet):Button(newIsSet)
+  {
+    posX = newPosX;
+    posY = newPosY;
+    rotation = newRotation;
+  }
+
+  void draw(bool isInv)
+  {
+
+  }
+
+};
+
 int Button = 4;
 bool Select = true;
 
@@ -67,11 +114,17 @@ void setup()
   Circle buttonB('B', 1, -1, 0);
   Circle buttonC('C',-1, 1, 0);
   Circle buttonD('D', 1, 1, 0);
+
+  Rectangle buttonMid(0);
   
   buttonA.draw(false);
   buttonB.draw(false);
   buttonC.draw(false);
   buttonD.draw(false);
+
+  buttonMid.draw(false);
+
+  
   
 }
 void loop() 
