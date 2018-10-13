@@ -44,7 +44,7 @@ class Circle:public Button
   void draw(bool isInv)
   {
     int buttonPosX = (29*posX)+64;
-    int buttonPosY = (29*posY)+48;
+    int buttonPosY = (29*posY)+49;
 
     int circleFill = 2-(3*isInv);
 
@@ -69,7 +69,8 @@ class Rectangle:public Button
 
   void draw(bool isInv)
   {
-    TV.draw_rect(58, 42, 12, 12, 1, !isInv);
+    //TV.draw_rect(58, 42, 12, 12, 1, !isInv);
+    TV.draw_rect(53, 39, 22, 20, 1, !isInv);
   }
 };
 
@@ -95,9 +96,9 @@ class Arrow:public Button
   {
     
     int rectX = 58+(20*posX);
-    int rectY = 42+(20*posY);
-    int deltX = 12+abs(posX);
-    int deltY = 12+abs(posY);
+    int rectY = 43+(20*posY);
+    int deltX = 11+abs(posY)+abs(posX);
+    int deltY = 11+abs(posX)+abs(posY);
 
     TV.draw_rect(rectX, rectY, deltX, deltY, 1, !isInv);
 
@@ -162,9 +163,14 @@ void setup()
   rightArrow.draw(false);
 
   buttonMid.draw(false);
-
-  
-  
+  /*
+  TV.draw_line(64, 0, 64, 96, 2);
+  TV.draw_line(0, 49, 128, 49, 2);
+  TV.draw_line(24, 49, 64, 9, 2);
+  TV.draw_line(24, 49, 64, 89, 2);
+  TV.draw_line(64, 89, 104, 49, 2);
+  TV.draw_line(64, 9, 104, 49, 2);
+  */
 }
 void loop() 
 {
