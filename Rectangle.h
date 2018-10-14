@@ -8,8 +8,7 @@ class Rectangle:public Button
   public:
 
   Rectangle();
-  Rectangle(bool newIsSet):Button(newIsSet);
-
+  Rectangle(bool newIsSet);
   void draw(bool isInv);
 };
 

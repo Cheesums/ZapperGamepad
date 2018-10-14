@@ -9,10 +9,12 @@ Circle::Circle(char newFace, int newPosX, int newPosY, bool newIsSet):Button(new
 
 Circle::Circle()
 {
-  
+  faceChar = ' ';
+  posX = 0;
+  posY = 0;
 }
 
-void draw(bool isInv)
+void Circle::draw(bool isInv)
 {
   int buttonPosX = (29*posX)+64;
   int buttonPosY = (29*posY)+49;

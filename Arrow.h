@@ -1,5 +1,5 @@
-#ifndef RECTANGLE_H
-#define RECTANGLE_H
+#ifndef ARROW_H
+#define ARROW_H
 
 #include "Button.h"
 

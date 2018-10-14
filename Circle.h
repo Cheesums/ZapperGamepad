@@ -1,17 +1,17 @@
-#ifndef RECTANGLE_H
-#define RECTANGLE_H
+#ifndef CIRCLE_H
+#define CIRCLE_H
 
 #include "Button.h"
 
 class Circle:public Button
 {
-  public:
-  
   char faceChar;
   int posX;
   int posY;
 
-  Circle(char newFace, int newPosX, int newPosY, bool newIsSet):Button(newIsSet);
+  public:
+
+  Circle(char newFace, int newPosX, int newPosY, bool newIsSet);
   Circle();
   
   void draw(bool isInv);

@@ -1,6 +1,6 @@
 #include "Arrow.h"
 
-Arrow::Arrow(int newPosX, int newPosY, bool newIsSet): Button(newIsSet)
+Arrow::Arrow(int newPosX, int newPosY, bool newIsSet) : Button(newIsSet)
 {
   posX = newPosX;
   posY = newPosY;
@@ -8,10 +8,11 @@ Arrow::Arrow(int newPosX, int newPosY, bool newIsSet): Button(newIsSet)
 
 Arrow::Arrow()
 {
-
+  posX = 0;
+  posY = 0;
 }
 
-void draw(bool isInv)
+void Arrow::draw(bool isInv)
 {
   
   int rectX = 58+(20*posX);

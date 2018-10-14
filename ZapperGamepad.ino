@@ -1,15 +1,15 @@
-#include <TVout.h>
-#include <font6x8.h>
-#include <video_gen.h>
-
+#include "Button.h"
 #include "Arrow.h"
 #include "Circle.h"
 #include "Rectangle.h"
 
-TVout TV;
-
 int Button = 4;
 bool Select = true;
+
+  Circle buttonA('A',-1,-1,0);
+  Circle buttonB('B', 1, -1, 0);
+  Circle buttonC('C',-1, 1, 0);
+  Circle buttonD('D', 1, 1, 0);
 
 void setup() 
 {
@@ -18,10 +18,10 @@ void setup()
   TV.select_font(font6x8);
   pinMode(Button, INPUT);
 
-  Circle buttonA('A',-1,-1,0);
-  Circle buttonB('B', 1, -1, 0);
-  Circle buttonC('C',-1, 1, 0);
-  Circle buttonD('D', 1, 1, 0);
+//  Circle buttonA('A',-1,-1,0);
+//  Circle buttonB('B', 1, -1, 0);
+//  Circle buttonC('C',-1, 1, 0);
+//  Circle buttonD('D', 1, 1, 0);
 
   Arrow upArrow(0, -1, false);
   Arrow downArrow(0, 1, false);
