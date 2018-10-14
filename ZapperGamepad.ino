@@ -105,17 +105,34 @@ class Arrow:public Button
     if (isInv)
     {
       int lineOffAX0 =  ((6+(5*posX))*abs(posX))+(-7*abs(posY));
-      int lineOffAY0 =  (7*-1*posX)+((6+(5*posY))*abs(posY));
-      int lineOffAX1 =  ((6+(5*posY))*abs(posX))+(20*-1*posY);
+      int lineOffAY0 =  (-7*abs(posX))+((6+(5*posY))*abs(posY));
+      int lineOffAX1 =  ((6+(5*posX))*abs(posX))+(19*abs(posY));
       int lineOffAY1 = (19*abs(posX))+((6+(5*posY))*abs(posY));
 
       int linePosAX0 = rectX + lineOffAX0;
       int linePosAY0 = rectY + lineOffAY0;
       int linePosAX1 = rectX + lineOffAX1;
       int linePosAY1 = rectY + lineOffAY1;
+
+      int lineTipX = rectX +((6-posX)+(20*posX)-posX)*abs(posX)+(6*abs(posY));
+      int lineTipY = rectY +(6+(18*posY));
+      
+      int linePosBX0 = rectX + (((1+posX)/2)*12)*posX;
+      int linePosBY0 = rectY + (((1+posY)/2)*12)*posY;
+      int linePosBX1 = rectX + (((1+posX)/2)*12)*posX + 13*abs(posY);
+      int linePosBY1 = rectY + (((1+posY)/2)*12)*posY+12*abs(posX);
+
+      int linePosCX0 = rectX + (((1+posX)/2)*12)*posX + abs(posY) - posX;
+      int linePosCY0 = rectY + (((1+posY)/2)*12)*posY - posY + abs(posX);
+      int linePosCX1 = rectX + (((1+posX)/2)*12)*posX + 13*abs(posY) - abs(posY) - posX;
+      int linePosCY1 = rectY + (((1+posY)/2)*12)*posY+12*abs(posX) - posY - abs(posX);
       
       //TV.draw_line(51, 24, 78, 24, 2);
       TV.draw_line(linePosAX0, linePosAY0, linePosAX1, linePosAY1, 1);
+      TV.draw_line(linePosAX0, linePosAY0, lineTipX, lineTipY, 1);
+      TV.draw_line(linePosAX1, linePosAY1, lineTipX, lineTipY, 1);
+      TV.draw_line(linePosBX0, linePosBY0, linePosBX1, linePosBY1, 0);
+      TV.draw_line(linePosCX0, linePosCY0, linePosCX1, linePosCY1, 0);
       
     }else
     {
@@ -134,9 +151,7 @@ class Arrow:public Button
       int arrPosY0 = rectY+arrOffY0;
       int arrPosX1 = rectX+arrOffX1;
       int arrPosY1 = rectY+arrOffY1;
-
-      
-
+ 
       for(int i = 0; i < 14; i++)
       {
         TV.draw_line(arrPosX0+(i*arrMultX0), arrPosY0+(i*arrMultY0), arrPosX1+(i*arrMultX1), arrPosY1+(i*arrMultY1), 1);
@@ -167,20 +182,19 @@ void setup()
 
   Rectangle buttonMid(0);
   
-  buttonA.draw(true);
-  buttonB.draw(true);
-  buttonC.draw(true);
-  buttonD.draw(true);
+  buttonA.draw(false);
+  buttonB.draw(false);
+  buttonC.draw(false);
+  buttonD.draw(false);
 
   upArrow.draw(true);
   downArrow.draw(true);
-  leftArrow.draw(false);
-  rightArrow.draw(false);
+  leftArrow.draw(true);
+  rightArrow.draw(true);
 
-  buttonMid.draw(true);
+  buttonMid.draw(false);
 
-  //TV.draw_line(51 ,74, 78, 74, 2); 
-  
+  //Reference lines for layout changes
   /*
   TV.draw_line(64, 0, 64, 96, 2);
   TV.draw_line(0, 49, 128, 49, 2);
@@ -202,4 +216,3 @@ void drawRect()
     // Draw mid button
     TV.draw_rect(58, 42, 12, 12, 1, 1); 
 }
-
