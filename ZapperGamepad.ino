@@ -1,273 +1,218 @@
 #include <TVout.h>
+#include <font6x8.h>
 #include <video_gen.h>
 
 TVout TV;
+
+class Button
+{
+  public:
+
+  bool isSet;
+
+  Button(bool newIsSet)
+  {
+    isSet = newIsSet;
+  }
+
+  Button()
+  {
+    
+  }
+};
+
+class Circle:public Button
+{
+  public:
+  
+  char faceChar;
+  int posX;
+  int posY;
+
+  Circle(char newFace, int newPosX, int newPosY, bool newIsSet):Button(newIsSet)
+  {
+    faceChar = newFace;
+    posX = newPosX;
+    posY = newPosY;
+  }
+
+  Circle()
+  {
+    
+  }
+  
+  void draw(bool isInv)
+  {
+    int buttonPosX = (29*posX)+64;
+    int buttonPosY = (29*posY)+49;
+
+    int circleFill = 2-(3*isInv);
+
+    TV.println(buttonPosX-2, buttonPosY-3, faceChar);
+    TV.draw_circle(buttonPosX, buttonPosY, 10, 1, circleFill);
+  };
+};
+
+class Rectangle:public Button
+{
+  public:
+
+  Rectangle()
+  {
+    
+  }
+
+  Rectangle(bool newIsSet):Button(newIsSet)
+  {
+    
+  }
+
+  void draw(bool isInv)
+  {
+    //TV.draw_rect(58, 42, 12, 12, 1, !isInv);
+    TV.draw_rect(53, 39, 22, 20, 1, !isInv);
+  }
+};
+
+class Arrow:public Button
+{
+  public:
+
+  int posX; //-1 for left, 1 for right, 0 for middle
+  int posY; //-1 for above, 1 for below, 0 for middle
+
+  Arrow(int newPosX, int newPosY, bool newIsSet): Button(newIsSet)
+  {
+    posX = newPosX;
+    posY = newPosY;
+  }
+
+  Arrow()
+  {
+
+  }
+
+  void draw(bool isInv)
+  {
+    
+    int rectX = 58+(20*posX);
+    int rectY = 43+(20*posY);
+    int deltX = 11+abs(posY)+abs(posX);
+    int deltY = 11+abs(posX)+abs(posY);
+
+    TV.draw_rect(rectX, rectY, deltX, deltY, 1, !isInv);
+
+    if (isInv)
+    {
+      int lineOffAX0 =  ((6+(5*posX))*abs(posX))+(-7*abs(posY));
+      int lineOffAY0 =  (-7*abs(posX))+((6+(5*posY))*abs(posY));
+      int lineOffAX1 =  ((6+(5*posX))*abs(posX))+(19*abs(posY));
+      int lineOffAY1 = (19*abs(posX))+((6+(5*posY))*abs(posY));
+
+      int linePosAX0 = rectX + lineOffAX0;
+      int linePosAY0 = rectY + lineOffAY0;
+      int linePosAX1 = rectX + lineOffAX1;
+      int linePosAY1 = rectY + lineOffAY1;
+
+      int lineTipX = rectX +((6-posX)+(20*posX)-posX)*abs(posX)+(6*abs(posY));
+      int lineTipY = rectY +(6+(18*posY));
+      
+      int linePosBX0 = rectX + (((1+posX)/2)*12)*posX;
+      int linePosBY0 = rectY + (((1+posY)/2)*12)*posY;
+      int linePosBX1 = rectX + (((1+posX)/2)*12)*posX + 13*abs(posY);
+      int linePosBY1 = rectY + (((1+posY)/2)*12)*posY+12*abs(posX);
+
+      int linePosCX0 = rectX + (((1+posX)/2)*12)*posX + abs(posY) - posX;
+      int linePosCY0 = rectY + (((1+posY)/2)*12)*posY - posY + abs(posX);
+      int linePosCX1 = rectX + (((1+posX)/2)*12)*posX + 13*abs(posY) - abs(posY) - posX;
+      int linePosCY1 = rectY + (((1+posY)/2)*12)*posY+12*abs(posX) - posY - abs(posX);
+      
+      //TV.draw_line(51, 24, 78, 24, 2);
+      TV.draw_line(linePosAX0, linePosAY0, linePosAX1, linePosAY1, 1);
+      TV.draw_line(linePosAX0, linePosAY0, lineTipX, lineTipY, 1);
+      TV.draw_line(linePosAX1, linePosAY1, lineTipX, lineTipY, 1);
+      TV.draw_line(linePosBX0, linePosBY0, linePosBX1, linePosBY1, 0);
+      TV.draw_line(linePosCX0, linePosCY0, linePosCX1, linePosCY1, 0);
+      
+    }else
+    {
+      
+      int arrOffX0 = (-7*abs(posY))+((((1+posX)/2)*11)+((-1+posX)/2))*posX;
+      int arrOffY0 = ((((1+posY)/2)*11)+((-1+posY)/2))*posY+(-7*abs(posX));
+      int arrOffX1 = (20*abs(posY))+((((1+posX)/2)*11)+((-1+posX)/2))*posX;
+      int arrOffY1 = ((((1+posY)/2)*11)+((-1+posY)/2))*posY+(19*abs(posX));
+
+      int arrMultX0 = posX+1-abs(posX);
+      int arrMultY0 = posY+1-abs(posY);
+      int arrMultX1 = (-1*abs(posY))+posX;
+      int arrMultY1 = posY+(-1*abs(posX));
+
+      int arrPosX0 = rectX+arrOffX0;
+      int arrPosY0 = rectY+arrOffY0;
+      int arrPosX1 = rectX+arrOffX1;
+      int arrPosY1 = rectY+arrOffY1;
+ 
+      for(int i = 0; i < 14; i++)
+      {
+        TV.draw_line(arrPosX0+(i*arrMultX0), arrPosY0+(i*arrMultY0), arrPosX1+(i*arrMultX1), arrPosY1+(i*arrMultY1), 1);
+      }
+    }
+  };
+};
+
 int Button = 4;
+bool Select = true;
 
 void setup() 
 {
   // put your setup code here, to run once:
   TV.begin(_NTSC);
+  TV.select_font(font6x8);
   pinMode(Button, INPUT);
+
+  Circle buttonA('A',-1,-1,0);
+  Circle buttonB('B', 1, -1, 0);
+  Circle buttonC('C',-1, 1, 0);
+  Circle buttonD('D', 1, 1, 0);
+
+  Arrow upArrow(0, -1, false);
+  Arrow downArrow(0, 1, false);
+  Arrow leftArrow(-1, 0, false);
+  Arrow rightArrow(1, 0, false);
+
+  Rectangle buttonMid(0);
+  
+  buttonA.draw(false);
+  buttonB.draw(false);
+  buttonC.draw(false);
+  buttonD.draw(false);
+
+  upArrow.draw(true);
+  downArrow.draw(true);
+  leftArrow.draw(true);
+  rightArrow.draw(true);
+
+  buttonMid.draw(false);
+
+  //Reference lines for layout changes
+  /*
+  TV.draw_line(64, 0, 64, 96, 2);
+  TV.draw_line(0, 49, 128, 49, 2);
+  TV.draw_line(24, 49, 64, 9, 2);
+  TV.draw_line(24, 49, 64, 89, 2);
+  TV.draw_line(64, 89, 104, 49, 2);
+  TV.draw_line(64, 9, 104, 49, 2);
+  */
 }
 void loop() 
 {
   // put your main code here, to run repeatedly:
-
-  if (digitalRead(Button) == HIGH)
-  {
-
-    // Draw mid button
-    drawRect();
-
-    //Draw top arrow
-    drawUp();
-
-    //Draw left arrow
-    drawLeft();
-    
-    //Draw right arrow
-    drawRight();
-
-    //Draw bottom arrow
-    drawDown();
-
-    //Draw Circles
-    drawA();
-
-    drawB();
-    
-    drawC();
- 
-    drawD();
-
-    TV.delay (60);
-  } else {
-
-    TV.clear_screen();
-
-    //INVERSE Draw top arrow
-    drawInvUp();
-
-    //INVERSE Draw left arrow
-    drawInvLeft();
-
-    //INVERSE Draw right arrow
-    drawInvRight();
-    
-    //INVERSE Draw bottom arrow
-    drawInvDown();
-
-    //INVERSE Draw Circles
-    drawInvA();
-
-    drawInvB();
-
-    drawInvC();
-
-    drawInvD();
-
-    TV.delay (60);
-  }
-
-
+  
 }
+
 
 void drawRect()
 {
     // Draw mid button
     TV.draw_rect(58, 42, 12, 12, 1, 1); 
 }
-
-void drawUp()
-{
-    TV.draw_rect(58, 23, 12, 11, 1, 1);
-    TV.draw_line(53, 22, 76, 22, 1);
-    TV.draw_line(54, 21, 75, 21, 1);
-    TV.draw_line(55, 20, 74, 20, 1);
-    TV.draw_line(56, 19, 73, 19, 1);
-    TV.draw_line(57, 18, 72, 18, 1);
-    TV.draw_line(58, 17, 71, 17, 1);
-    TV.draw_line(59, 16, 70, 16, 1);
-    TV.draw_line(60, 15, 69, 15, 1);
-    TV.draw_line(61, 14, 68, 14, 1);
-    TV.draw_line(62, 13, 67, 13, 1);
-    TV.draw_line(63, 12, 66, 12, 1);
-    TV.set_pixel(64, 11, 1);
-}
-
-void drawLeft()
-{
-    TV.draw_rect(39, 42, 11, 12, 1, 1);
-    TV.draw_line(38, 37, 38, 59, 1);
-    TV.draw_line(37, 38, 37, 58, 1);
-    TV.draw_line(36, 39, 36, 57, 1);
-    TV.draw_line(35, 40, 35, 56, 1);
-    TV.draw_line(34, 41, 34, 55, 1);
-    TV.draw_line(33, 42, 33, 54, 1);
-    TV.draw_line(32, 43, 32, 53, 1);
-    TV.draw_line(31, 44, 31, 52, 1);
-    TV.draw_line(30, 45, 30, 51, 1);
-    TV.draw_line(29, 46, 29, 50, 1);
-    TV.draw_line(28, 47, 28, 49, 1);
-    TV.set_pixel(27, 48, 1);
-}
-
-void drawRight()
-{
-    TV.draw_rect(78, 42, 11, 12, 1, 1);
-    TV.draw_line(89, 37, 89, 59, 1);
-    TV.draw_line(90, 38, 90, 58, 1);
-    TV.draw_line(91, 39, 91, 57, 1);
-    TV.draw_line(92, 40, 92, 56, 1);
-    TV.draw_line(93, 41, 93, 55, 1);
-    TV.draw_line(94, 42, 94, 54, 1);
-    TV.draw_line(95, 43, 95, 53, 1);
-    TV.draw_line(96, 44, 96, 52, 1);
-    TV.draw_line(97, 45, 97, 51, 1);
-    TV.draw_line(98, 46, 98, 50, 1);
-    TV.draw_line(99, 47, 99, 49, 1);
-    TV.set_pixel(100, 48, 1);
-}
-
-void drawDown()
-{
-    TV.draw_rect(58, 62, 12, 11, 1, 1);
-    TV.draw_line(53, 73, 76, 73, 1);
-    TV.draw_line(54, 74, 75, 74, 1);
-    TV.draw_line(55, 75, 74, 75, 1);
-    TV.draw_line(56, 76, 73, 76, 1);
-    TV.draw_line(57, 77, 72, 77, 1);
-    TV.draw_line(58, 78, 71, 78, 1);
-    TV.draw_line(59, 79, 70, 79, 1);
-    TV.draw_line(60, 80, 69, 80, 1);
-    TV.draw_line(61, 81, 68, 81, 1);
-    TV.draw_line(62, 82, 67, 82, 1);
-    TV.draw_line(63, 83, 66, 83, 1);
-    TV.set_pixel(64, 84, 1);  
-}
-
-void drawA()
-{
-    TV.draw_circle(34, 18, 7, 1, 1); //TL A
-    TV.draw_line(34, 13, 30, 21, 0);
-    TV.draw_line(34, 13, 38, 21, 0);
-    TV.draw_line(31, 19, 37, 19, 0);
-}
-
-void drawB()
-{
-    TV.draw_circle(93, 18, 7, 1, 1); //TR B
-    TV.draw_line(91, 13, 91, 21, 0);
-    TV.draw_line(91, 13, 95, 13, 0);
-    TV.draw_line(91, 17, 95, 17, 0);
-    TV.draw_line(91, 21, 96, 21, 0);
-    TV.draw_line(95, 14, 95, 17, 0);
-    TV.draw_line(96, 18, 96, 20, 0);
-}
-
-void drawC()
-{
-    TV.draw_circle(34, 77, 7, 1, 1); //BL C
-    TV.draw_line(33, 73, 37, 73, 0);
-    TV.draw_line(31, 75, 31, 79, 0);
-    TV.draw_line(33, 81, 37, 81, 0);
-    TV.set_pixel(37, 80, 0);
-    TV.set_pixel(37, 74, 0);
-    TV.set_pixel(32, 74, 0);
-    TV.set_pixel(32, 80, 0);
-}
-
-void drawD()
-{
-    TV.draw_circle(93, 77, 7, 1, 1); //BR D
-    TV.draw_line(90, 73, 90, 81, 0);
-    TV.draw_line(90, 73, 95, 73, 0);
-    TV.draw_line(90, 81, 95, 81, 0);
-    TV.draw_line(96, 75, 96, 80, 0);
-    TV.draw_line(94, 74, 96, 74, 0);
-    TV.draw_line(95, 80, 97, 80, 0);
-}
-
-void drawInvUp()
-{
-    TV.draw_rect(58, 23, 12, 11, 1, 0);
-    TV.draw_line(59, 23, 70, 23, 0);
-    TV.draw_line(53, 22, 59, 22, 1);
-    TV.draw_line(70, 22, 75, 22, 1);
-    TV.draw_line(53, 22, 64, 11, 1);
-    TV.draw_line(64, 11, 75, 22, 1);
-}
-
-void drawInvLeft()
-{
-    TV.draw_rect(39, 42, 11, 12, 1, 0);
-    TV.draw_line(39, 53, 39, 43, 0);
-    TV.draw_line(38, 42, 38, 37, 1);
-    TV.draw_line(38, 54, 38, 59, 1);
-    TV.draw_line(38, 36, 27, 47, 1);
-    TV.draw_line(38, 59, 27, 48, 1);
-}
-
-void drawInvRight()
-{
-    TV.draw_rect(78, 42, 11, 12, 1, 0);
-    TV.draw_line(89, 43, 89, 53, 0);
-    TV.draw_line(89, 37, 89, 42, 1);
-    TV.draw_line(89, 54, 89, 59, 1);
-    TV.draw_line(89, 37, 100, 48, 1);
-    TV.draw_line(89, 59, 100, 48, 1);  
-}
-
-void drawInvDown()
-{
-    TV.draw_rect(58, 62, 12, 11, 1, 0);
-    TV.draw_line(59, 73, 70, 73, 0);
-    TV.draw_line(53, 73, 59, 73, 1);
-    TV.draw_line(70, 73, 75, 73, 1);
-    TV.draw_line(53, 73, 64, 84, 1);
-    TV.draw_line(75, 73, 64, 84, 1);
-}
-
-void drawInvA()
-{
-    TV.draw_circle(34, 18, 7, 1, 0); //TL A
-    TV.draw_line(34, 13, 30, 21, 1);
-    TV.draw_line(34, 13, 38, 21, 1);
-    TV.draw_line(31, 19, 37, 19, 1);
-}
-
-void drawInvB()
-{
-    TV.draw_circle(93, 18, 7, 1, 0); //TR B
-    TV.draw_line(91, 13, 91, 21, 1);
-    TV.draw_line(91, 13, 95, 13, 1);
-    TV.draw_line(91, 17, 95, 17, 1);
-    TV.draw_line(91, 21, 96, 21, 1);
-    TV.draw_line(95, 14, 95, 17, 1);
-    TV.draw_line(96, 18, 96, 20, 1);  
-}
-
-void drawInvC()
-{
-    TV.draw_circle(34, 77, 7, 1, 0); //BL C
-    TV.draw_line(33, 73, 37, 73, 1);
-    TV.draw_line(31, 75, 31, 79, 1);
-    TV.draw_line(33, 81, 37, 81, 1);
-    TV.set_pixel(37, 80, 1);
-    TV.set_pixel(37, 74, 1);
-    TV.set_pixel(32, 74, 1);
-    TV.set_pixel(32, 80, 1);  
-}
-
-void drawInvD()
-{
-    TV.draw_circle(93, 77, 7, 1, 0); //BR D
-    TV.draw_line(90, 73, 90, 81, 1);
-    TV.draw_line(90, 73, 95, 73, 1);
-    TV.draw_line(90, 81, 95, 81, 1);
-    TV.draw_line(96, 75, 96, 80, 1);
-    TV.draw_line(94, 74, 96, 74, 1);
-    TV.draw_line(95, 80, 97, 80, 1);  
-}
-
