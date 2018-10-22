@@ -3,6 +3,8 @@
 #include "Circle.h"
 #include "Rectangle.h"
 
+TVout MainTV;
+
 int Button = 4;
 bool Select = true;
 
@@ -14,8 +16,8 @@ bool Select = true;
 void setup() 
 {
   // put your setup code here, to run once:
-  TV.begin(_NTSC);
-  TV.select_font(font6x8);
+  MainTV.begin(_NTSC);
+  MainTV.select_font(font6x8);
   pinMode(Button, INPUT);
 
 //  Circle buttonA('A',-1,-1,0);
@@ -44,12 +46,12 @@ void setup()
 
   //Reference lines for layout changes
   /*
-  TV.draw_line(64, 0, 64, 96, 2);
-  TV.draw_line(0, 49, 128, 49, 2);
-  TV.draw_line(24, 49, 64, 9, 2);
-  TV.draw_line(24, 49, 64, 89, 2);
-  TV.draw_line(64, 89, 104, 49, 2);
-  TV.draw_line(64, 9, 104, 49, 2);
+  MainTV.draw_line(64, 0, 64, 96, 2);
+  MainTV.draw_line(0, 49, 128, 49, 2);
+  MainTV.draw_line(24, 49, 64, 9, 2);
+  MainTV.draw_line(24, 49, 64, 89, 2);
+  MainTV.draw_line(64, 89, 104, 49, 2);
+  MainTV.draw_line(64, 9, 104, 49, 2);
   */
 }
 void loop() 
@@ -62,5 +64,5 @@ void loop()
 void drawRect()
 {
     // Draw mid button
-    TV.draw_rect(58, 42, 12, 12, 1, 1); 
+    MainTV.draw_rect(58, 42, 12, 12, 1, 1); 
 }

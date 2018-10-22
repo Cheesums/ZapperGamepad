@@ -1,5 +1,7 @@
 # include "Circle.h"
 
+TVout CircleTV;
+
 Circle::Circle(char newFace, int newPosX, int newPosY, bool newIsSet):Button(newIsSet)
 {
   faceChar = newFace;
@@ -21,6 +23,6 @@ void Circle::draw(bool isInv)
 
   int circleFill = 2-(3*isInv);
 
-  TV.println(buttonPosX-2, buttonPosY-3, faceChar);
-  TV.draw_circle(buttonPosX, buttonPosY, 10, 1, circleFill);
+  CircleTV.println(buttonPosX-2, buttonPosY-3, faceChar);
+  CircleTV.draw_circle(buttonPosX, buttonPosY, 10, 1, circleFill);
 }
