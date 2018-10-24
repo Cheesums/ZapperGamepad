@@ -20,10 +20,10 @@ void setup()
   MainTV.select_font(font6x8);
   pinMode(Button, INPUT);
 
-//  Circle buttonA('A',-1,-1,0);
-//  Circle buttonB('B', 1, -1, 0);
-//  Circle buttonC('C',-1, 1, 0);
-//  Circle buttonD('D', 1, 1, 0);
+  Circle buttonA('A',-1,-1,0);
+  Circle buttonB('B', 1, -1, 0);
+  Circle buttonC('C',-1, 1, 0);
+  Circle buttonD('D', 1, 1, 0);
 
   Arrow upArrow(0, -1, false);
   Arrow downArrow(0, 1, false);
@@ -32,17 +32,17 @@ void setup()
 
   Rectangle buttonMid(0);
   
-  buttonA.draw(false);
-  buttonB.draw(false);
-  buttonC.draw(false);
-  buttonD.draw(false);
+//  buttonA.draw(false);
+//  buttonB.draw(false);
+//  buttonC.draw(false);
+//  buttonD.draw(false);
 
-  upArrow.draw(true);
-  downArrow.draw(true);
-  leftArrow.draw(true);
-  rightArrow.draw(true);
+  upArrow.draw(false);
+  downArrow.draw(false);
+  leftArrow.draw(false);
+  rightArrow.draw(false);
 
-  buttonMid.draw(false);
+//  buttonMid.draw(false);
 
   //Reference lines for layout changes
   /*

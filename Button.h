@@ -9,10 +9,12 @@
 
 class Button
 {
-  public:
+  private:
 
   bool isSet;
 
+  public:
+  
   Button();
   Button(bool set);
 };

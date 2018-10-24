@@ -1,6 +1,5 @@
 #include "Button.h"
 
-
 Button::Button()
 {
   isSet = 0;
