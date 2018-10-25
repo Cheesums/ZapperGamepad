@@ -2,7 +2,7 @@
 
 Button::Button()
 {
-  isSet = 0;
+  isSet = false;
 }
 
 Button::Button(bool set)

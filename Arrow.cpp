@@ -1,6 +1,5 @@
 #include "Arrow.h"
-
-TVout ArrowTV;
+#include "Arduino.h"
 
 Arrow::Arrow(int newPosX, int newPosY, bool newIsSet) : Button(newIsSet)
 {
@@ -22,7 +21,7 @@ void Arrow::draw(bool isInv)
   int deltX = 11+abs(posY)+abs(posX);
   int deltY = 11+abs(posX)+abs(posY);
 
-  ArrowTV.draw_rect(rectX, rectY, deltX, deltY, 1, !isInv);
+  TV.draw_rect(rectX, rectY, deltX, deltY, 1, !isInv);
 
   if (isInv)
   {
@@ -49,12 +48,12 @@ void Arrow::draw(bool isInv)
     int linePosCX1 = rectX + (((1+posX)/2)*12)*posX + 13*abs(posY) - abs(posY) - posX;
     int linePosCY1 = rectY + (((1+posY)/2)*12)*posY+12*abs(posX) - posY - abs(posX);
     
-    //ArrowTV.draw_line(51, 24, 78, 24, 2);
-    ArrowTV.draw_line(linePosAX0, linePosAY0, linePosAX1, linePosAY1, 1);
-    ArrowTV.draw_line(linePosAX0, linePosAY0, lineTipX, lineTipY, 1);
-    ArrowTV.draw_line(linePosAX1, linePosAY1, lineTipX, lineTipY, 1);
-    ArrowTV.draw_line(linePosBX0, linePosBY0, linePosBX1, linePosBY1, 0);
-    ArrowTV.draw_line(linePosCX0, linePosCY0, linePosCX1, linePosCY1, 0);
+    //TV.draw_line(51, 24, 78, 24, 2);
+    TV.draw_line(linePosAX0, linePosAY0, linePosAX1, linePosAY1, 1);
+    TV.draw_line(linePosAX0, linePosAY0, lineTipX, lineTipY, 1);
+    TV.draw_line(linePosAX1, linePosAY1, lineTipX, lineTipY, 1);
+    TV.draw_line(linePosBX0, linePosBY0, linePosBX1, linePosBY1, 0);
+    TV.draw_line(linePosCX0, linePosCY0, linePosCX1, linePosCY1, 0);
     
   }else
   {
@@ -76,7 +75,7 @@ void Arrow::draw(bool isInv)
 
     for(int i = 0; i < 14; i++)
     {
-      ArrowTV.draw_line(arrPosX0+(i*arrMultX0), arrPosY0+(i*arrMultY0), arrPosX1+(i*arrMultX1), arrPosY1+(i*arrMultY1), 1);
+      TV.draw_line(arrPosX0+(i*arrMultX0), arrPosY0+(i*arrMultY0), arrPosX1+(i*arrMultX1), arrPosY1+(i*arrMultY1), 1);
     }
   }
 }

@@ -3,22 +3,17 @@
 #include "Circle.h"
 #include "Rectangle.h"
 
-TVout MainTV;
+#include <TVout.h>
+#include "font6x8.h"
+#include "video_gen.h"
 
-int Button = 4;
-bool Select = true;
-
-  Circle buttonA('A',-1,-1,0);
-  Circle buttonB('B', 1, -1, 0);
-  Circle buttonC('C',-1, 1, 0);
-  Circle buttonD('D', 1, 1, 0);
+TVout TV;
 
 void setup() 
 {
   // put your setup code here, to run once:
-  MainTV.begin(_NTSC);
-  MainTV.select_font(font6x8);
-  pinMode(Button, INPUT);
+  TV.begin(_NTSC);
+  TV.select_font(font6x8);
 
   Circle buttonA('A',-1,-1,0);
   Circle buttonB('B', 1, -1, 0);
@@ -32,17 +27,17 @@ void setup()
 
   Rectangle buttonMid(0);
   
-//  buttonA.draw(false);
-//  buttonB.draw(false);
-//  buttonC.draw(false);
-//  buttonD.draw(false);
+  buttonA.draw(true);
+  buttonB.draw(false);
+  buttonC.draw(false);
+  buttonD.draw(true);
 
-  upArrow.draw(false);
+  upArrow.draw(true);
   downArrow.draw(false);
   leftArrow.draw(false);
-  rightArrow.draw(false);
+  rightArrow.draw(true);
 
-//  buttonMid.draw(false);
+  buttonMid.draw(true);
 
   //Reference lines for layout changes
   /*
@@ -58,11 +53,4 @@ void loop()
 {
   // put your main code here, to run repeatedly:
   
-}
-
-
-void drawRect()
-{
-    // Draw mid button
-    MainTV.draw_rect(58, 42, 12, 12, 1, 1); 
 }

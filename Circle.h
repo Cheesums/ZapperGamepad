@@ -2,9 +2,15 @@
 #define CIRCLE_H
 
 #include "Button.h"
+#include "TVout.h"
+#include "font6x8.h"
+
+extern TVout TV;
 
 class Circle:public Button
 {
+  private:
+  
   char faceChar;
   int posX;
   int posY;

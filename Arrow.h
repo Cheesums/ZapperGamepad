@@ -2,6 +2,9 @@
 #define ARROW_H
 
 #include "Button.h"
+#include "TVout.h"
+
+extern TVout TV;
 
 class Arrow:public Button
 {
