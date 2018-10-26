@@ -21,6 +21,7 @@ void Circle::draw(bool isInv)
 
   int circleFill = 2-(3*isInv);
 
+  TV.draw_circle(buttonPosX, buttonPosY, 10, 1, 0);
   TV.println(buttonPosX-2, buttonPosY-3, faceChar);
   TV.draw_circle(buttonPosX, buttonPosY, 10, 1, circleFill);
 }
