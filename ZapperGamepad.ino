@@ -13,36 +13,35 @@
 
 TVout TV;
 
-const int triggerPin = 3;
-
-volatile int triggerState = HIGH;
+volatile int triggerState = LOW;
 volatile int detectState = LOW;
 volatile int vblank = 0;
+volatile int detectInt = 0;
+
+int i = 0;
 
 Circle buttonA('A',-1,-1,0);
 Circle buttonB('B', 1, -1, 0);
 Circle buttonC('C',-1, 1, 0);
 Circle buttonD('D', 1, 1, 0);
 
-Arrow upArrow(0, -1, false);
-Arrow downArrow(0, 1, false);
-Arrow leftArrow(-1, 0, false);
-Arrow rightArrow(1, 0, false);
+Arrow buttonUp(0, -1, false);
+Arrow buttonDown(0, 1, false);
+Arrow buttonLeft(-1, 0, false);
+Arrow buttonRight(1, 0, false);
 
 Rectangle buttonMid(0);
 
 void setup() 
 {
-  attachInterrupt(digitalPinToInterrupt(TRIGGER_PIN), triggerPull, FALLING);
-  attachInterrupt(digitalPinToInterrupt(DETECT_PIN), lightDetect, RISING);
+  attachInterrupt(digitalPinToInterrupt(TRIGGER_PIN), triggerHandle, FALLING);
+  attachInterrupt(digitalPinToInterrupt(DETECT_PIN), detectHandle, RISING);
   // put your setup code here, to run once:
   TV.begin(_NTSC);
   TV.clear_screen();
   TV.select_font(font6x8);
 
   TV.set_vbi_hook(vbiFlag);
-
-  pinMode(triggerPin, INPUT);
 
   //Reference lines for layout changes
   /*
@@ -57,31 +56,31 @@ void setup()
 void loop() 
 {
   // put your main code here, to run repeatedly:
-  triggerState = digitalRead(triggerPin);
+  //triggerState = digitalRead(triggerPin);
+
   
-  buttonA.draw(true);
+  buttonA.draw(false);
   buttonB.draw(false);
   buttonC.draw(false);
-  buttonD.draw(true);
+  buttonD.draw(false);
 
-  upArrow.draw(true);
-  downArrow.draw(false);
-  leftArrow.draw(false);
-  rightArrow.draw(true);
+  buttonUp.draw(false);
+  buttonDown.draw(false);
+  buttonLeft.draw(false);
+  buttonRight.draw(false);
 
   buttonMid.draw(detectState);
 
+  resetState();
+  TV.print(detectInt);
   while (triggerState == LOW);
-  
-  wait_for_vblank();
+  attachInterrupt(digitalPinToInterrupt(DETECT_PIN), detectHandle, RISING);
 
-  TV.fill(WHITE);
-  wait_for_vblank();
-  wait_for_vblank();
+  i = i +1;
 
-  triggerState = LOW;
-  TV.clear_screen();
 }
+
+//TV utlility functions
 
 void vbiFlag()
 {
@@ -94,18 +93,20 @@ inline void wait_for_vblank()
   vblank = 0;
 }
 
-void triggerPull()
+void triggerHandle()
 {
   triggerState = HIGH;
 }
 
-void lightDetect()
+void detectHandle()
 {
   detectState = !detectState;
+  detectInt = detectInt + 1;
+  detachInterrupt(digitalPinToInterrupt(DETECT_PIN));
 }
 
 inline void resetState()
 {
   triggerState = LOW;
-  detectState = LOW;
+  //detectState = LOW;
 }
